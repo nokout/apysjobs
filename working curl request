@@ -1,0 +1,19 @@
+curl 'https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch
+&ifm=true'
+-H
+'Cookie: UserPreferencesCookieCheck=CookieCheck=APSjobs; UserPreferencesPageSize=PageSize=1000; APSjobs_Session=mt2znjwjbiq4w5eeuc2tc24h'  --data '__EVENTTARGET=
+__EVENTARGUMENT=
+__LASTFOCUS=
+__VIEWSTATE=
+__SCROLLPOSITIONX=271
+__SCROLLPOSITIONY=403
+__VIEWSTATEENCRYPTED=
+ctl00$ContentPlaceHolderSite$ucAgency=
+ctl00$ContentPlaceHolderSite$ucJobCategory=
+ctl00$ContentPlaceHolderSite$ucClassification=
+ctl00$ContentPlaceHolderSite$ucState=
+ctl00$ContentPlaceHolderSite$txtKeywords=
+ctl00$ContentPlaceHolderSite$txtMinSalary=
+ctl00$ContentPlaceHolderSite$txtMaxSalary=
+ctl00$ContentPlaceHolderSite$btnSearch=Search
+ctl00$ContentPlaceHolderSite$lvSearchResults$ucPageSize$lPS=1000'
