@@ -2,9 +2,7 @@ import re
 from scrapy.selector import Selector
 from bs4 import BeautifulSoup
 
-def build_object(body):
-    notice = {}
-
+def build_object(body, notice={}):
     notice['notice_type_text'] = Selector(text=body).css('.noticeType::text').extract_first().strip()
     notice['portfolio'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_tdPortfolio::text').extract_first().strip()
     notice['agency'] = Selector(text=body).css('.agency::text').extract_first().strip()
@@ -24,7 +22,7 @@ def build_object(body):
         notice['locations'].append({'state': location.split('-')[1].strip(), 'city': location.split('-')[0].strip()})
 
     notice['classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrClassification').css('td:nth-child(2)::text').extract_first().strip()
-    notice['classifications'] = notice['classification_text'].split(',')
+    notice['classifications'] = [x.strip() for x in notice['classification_text'].split(',')]
 
     notice['employment_act'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrAgencyAct::text').extract_first().strip()
     notice['position_id'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrPositionNo').css('td:nth-child(2)::text').extract_first()).strip()
@@ -33,8 +31,8 @@ def build_object(body):
         notice['amendments'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrAmendments span::text').extract()[-1]).strip()
 
     notice['selection_documentation'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrSelectionDocumentation').css('td:nth-child(2)::text').extract_first()).strip()
-    notice['position_contact'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrContactDetails').css('td:nth-child(2)::text').extract_first().strip()
-    notice['position_contact_address'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrApplyText').css('td:nth-child(2)::text').extract_first().strip()
+    notice['position_contact'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrContactDetails').css('td:nth-child(2)::text').extract_first()).strip()
+    notice['position_contact_address'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrApplyText').css('td:nth-child(2)::text').extract_first()).strip()
     notice['agency_website_recruitment'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrAgencyRecruitmentUrl').css('td:nth-child(2)::text').extract_first().strip()
     notice['agency_website_apply_function_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkApply::attr(onclick)').extract_first().strip()
     notice['agency_website_information'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkAgencyRecruitment::attr(href)').extract_first().strip()

@@ -53,15 +53,16 @@ class QuotesSpider(scrapy.Spider):
             'ctl00$ContentPlaceHolderSite$hMessage': ''
         }
 
-        #TODO Put cookies in construction and change to a yield instead of return
+        # TODO Put cookies in construction and change to a yield instead of
+        # return
         main_request = scrapy.http.FormRequest.from_response(response,
-            formname="aspnetForm",
-            formdata=data,
-            headers=headers,
-            # url='''https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true''',
-            clickdata={
-             'name': 'ctl00$ContentPlaceHolderSite$btnSearch'},
-            callback=self.get_search_results)
+                                                             formname="aspnetForm",
+                                                             formdata=data,
+                                                             headers=headers,
+                                                             # url='''https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true''',
+                                                             clickdata={
+                                                                 'name': 'ctl00$ContentPlaceHolderSite$btnSearch'},
+                                                             callback=self.get_search_results)
 
         main_request.cookies['UserPreferencesPageSize'] = "PageSize=1000"
 
@@ -89,20 +90,25 @@ class QuotesSpider(scrapy.Spider):
             '#ctl00_ContentPlaceHolderSite_lvSearchResults_gvListView').css('.item, .altItem').extract()
         self.log('Notices Found: {}'.format(len(rows)))
         for i, row in enumerate(rows):
-            url = Selector(text=row).css(
-                'td:nth-child(2)').css('a::attr(href)').extract()[-1]
+            url = response.urljoin(Selector(text=row).css(
+                'td:nth-child(2)').css('a::attr(href)').extract()[-1])
             id = re.search('Notices=([0-9]*)', Selector(text=row).css(
                 'td:nth-child(2)').css('a::attr(href)').extract_first()).group(1)
-            # date = Selector(text=row).css('td:nth-child(3)::text').extract_first().split(':')[-1].strip().css(
-            # '#ctl00_c_ucNoticeDetails_ucNoticeView_tbrSalary').css('td:nth-child(2)::text').extract_first()
-            # self.notices['id'] = {'id': id, 'url': url, 'data,
-            # callback=self.parse': d
+            date = Selector(text=row).css('td:nth-child(3)::text').extract_first().split(':')[-1]
+            self.notices['id'] = {'notice_id': id, 'notice_url': url, 'notice_publish_date': date}
+
             yield scrapy.Request(response.urljoin(url), callback=self.parse)
 
+            if i > 3:
+                break
+
     def parse(self, response):
-        filename = re.search('Notices=([0-9]*)', response.url).group(1)
-        with open('html/{}.html'.format(filename), 'wb') as f:
+        id = re.search('Notices=([0-9]*)', response.url).group(1)
+
+        with open('''output/{}.html'''.format(id), 'wb') as f:
             f.write(response.body)
 
-        with open('''./json/{}.json'''.format(filename), 'wb') as f:
-            f.write(json.dumps(build_object(body), indent=4))
+        with open('''output/{}.json'''.format(id), 'w') as f:
+            notice_doc = build_object(response.body, self.notices['id'])
+            f.write(json.dumps(notice_doc, indent=4))
+            # TODO write to elastic search
