@@ -17,12 +17,8 @@ class QuotesSpider(scrapy.Spider):
 
         request1 = scrapy.Request(
             url="""https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true""",
-            callback=self.setup_parse)
-        #    formdata=data,
-        # #    cookies={'UserPreferencesCookieCheck': 'APSjobs',
-        # #             'UserPreferencesPageSize': '1000',
-        # #             'APSjobs_Session': 'a4dpg0orukmugpmpdak0wudv'}
-        # )
+            callback=self.setup_parse,
+            cookies= {'UserPreferencesPageSize': "PageSize=1000"})
 
         return [request1]
 
@@ -43,14 +39,50 @@ class QuotesSpider(scrapy.Spider):
         #                                                 'APSjobs_Session': 'vulbbuk55xezodowvzbb01ce'},
         with open('pre_search_result.html', 'wb') as f:
             f.write(response.body)
+        headers = {
+            'Host': 'www.apsjobs.gov.au',
+            'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Referer': 'https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true',
+            'Connection': 'keep-alive',
+            'Upgrade-Insecure-Requests': '1',
+            'Pragma': 'no-cache',
+            'Cache-Control': 'no-cache',
+            }
 
-        yield scrapy.http.FormRequest.from_response(response,
+        data = {
+          '__EVENTTARGET': '',
+          '__EVENTARGUMENT': '',
+          '__VIEWSTATE': '',
+          '__SCROLLPOSITIONX': '400',
+          '__SCROLLPOSITIONY': '119',
+          '__VIEWSTATEENCRYPTED': '',
+          'ctl00$ContentPlaceHolderSite$ucAgency': '',
+          'ctl00$ContentPlaceHolderSite$ucJobCategory': '',
+          'ctl00$ContentPlaceHolderSite$ucClassification': '',
+          'ctl00$ContentPlaceHolderSite$ucState': '',
+          'ctl00$ContentPlaceHolderSite$txtKeywords': '',
+          'ctl00$ContentPlaceHolderSite$txtMinSalary': '',
+          'ctl00$ContentPlaceHolderSite$txtMaxSalary': '',
+          'ctl00$ContentPlaceHolderSite$btnSearch': 'Search',
+          'ctl00$ContentPlaceHolderSite$hMessage': ''
+        }
+
+        # requests.post('https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true', headers=headers, cookies=cookies, data=data)
+
+        main_request =  scrapy.http.FormRequest.from_response(response,
                                                     formname="aspnetForm",
                                                     formdata=data,
+                                                    headers=headers,
                                                     # url='''https://www.apsjobs.gov.au/quickSearch.aspx?mn=JobSearch&ifm=true''',
                                                     clickdata={'name': 'ctl00$ContentPlaceHolderSite$btnSearch'},
                                                     callback=self.get_search_results)
-        # main_request
+        main_request.cookies['UserPreferencesPageSize'] = "PageSize=1000"
+
+        print("Request Body... " + str(main_request.body))
+        print("Request Body... " + str(main_request.headers))
+        return [main_request]
 
     def get_search_results(self, response):
 
