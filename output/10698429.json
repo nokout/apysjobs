@@ -1,0 +1,46 @@
+{
+    "id": "10698429",
+    "notice_type_text": "Vacancy N.N. 10698429",
+    "job_type": [
+        "Ongoing",
+        "Full-time"
+    ],
+    "locations_text": "Canberra - ACT",
+    "section": "None",
+    "salary_text": "$73,558 - $90,138",
+    "closing_date": "Sunday, 15 January 2017",
+    "classification_text": "APS Level 5, APS Level 6",
+    "agency_website_apply_function_text": "javascript:return isValidDisclaimer();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"ctl00$c$ucNoticeDetails$ucNoticeView$lnkApply\", \"\", false, \"\", \"http://www.austrade.gov.au/Employment/default.aspx\", false, false))",
+    "salary_min": "73558",
+    "portfolio": "Foreign Affairs and Trade",
+    "position_description_html": "<html>\n <body>\n  <div id=\"viewContent\">\n   <br/>\n   <h2>\n    Job Description\n   </h2>\n   <h3>\n    Duties\n   </h3>\n   <br/>\n   Austrade is looking for a Supervisor, to lead the Accounts Payable team in Canberra. You will oversee and manage the delivery of Accounts Payable/Receivable duties, such as posting vendor invoices and customer invoices, processing vendor and customer journals, and additional general duties.\n   <br/>\n   <br/>\n   Ideally you will have a strong accounting background, well developed communication and stakeholder engagement skills as well as the ability to strategically plan and manage staff.\n   <br/>\n   <br/>\n   <br/>\n   <h3>\n    Eligibility\n   </h3>\n   <br/>\n   The successful applicant must be an Australian citizen and have, or be willing to undergo a security clearance to the level of Baseline as a condition of employment.\n   <br/>\n   <br/>\n   <h3>\n    Notes\n   </h3>\n   <br/>\n   Please refer to the Information Pack on our website for more details.\n   <br/>\n   <br/>\n   RecruitAbility applies to this vacancy. Under the RecruitAbility scheme you will be invited to participate in further assessment activity for the vacancy if you choose to apply under the scheme; declare you have a disability; and meet the minimum requirements for the job. For more information see:\n   <a href=\"http://www.apsc.gov.au/priorities/disability/recruitability\" target=\"APSC recruitability page\">\n    http://www.apsc.gov.au/priorities/disability/recruitability\n   </a>\n   .\n   \n  </div>\n </body>\n</html>",
+    "position_contact_address": "None",
+    "publish_date": " 15 Dec 2016 \r\n                ",
+    "notes_html": [
+        "<div id=\"ctl00_c_ucNoticeDetails_divStaticEmploymentOpportunityText\" class=\"notes\" style=\"padding-left:8em;\">\r\n\t\t\t\t    Applicants to vacancies notified in all formats of the electronic Public Service Gazette should be aware that;<br>\r\n                     \r\n                         .\u00a0 the names of successful applicants may also be notified in all formats of the electronic Public Service Gazette<br>\r\n                         .\u00a0 applicants found suitable may be offered similar employment opportunities by other Australian Public Service agencies\r\n                    \r\n\t\t\t\t    <br>\u00a0\r\n\t\t\t    </div>",
+        "<div class=\"notes\" style=\"text-align:center;\">\r\n\t\t\t\t\t    This notice is part of the electronic Public Service Gazette\r\n\t\t\t\t\t    PS50-Thu - 15 Dec 2016\r\n\t\t\t\t\t    Published by Australian Public Service Commission.\r\n\t\t\t    </div>"
+    ],
+    "agency_website_recruitment": "http://www.austrade.gov.au/",
+    "broadband_classification_text": "APL 2 (APS5-6)\r\n\t\t\t",
+    "classifications": [
+        "APS Level 5",
+        "APS Level 6"
+    ],
+    "agency_website_information": "http://www.austrade.gov.au/",
+    "job_title": "Supervisor, Accounts Payable",
+    "locations": [
+        {
+            "state": "ACT",
+            "city": "Canberra"
+        }
+    ],
+    "agency_website": "http://www.austrade.gov.au/",
+    "salary_max": "90138",
+    "url": "https://www.apsjobs.gov.au/SearchedNoticesView.aspx?Notices=10698429%3A1&mn=JobSearch",
+    "position_id": "0309",
+    "position_contact": "See Austrade website",
+    "agency": "Austrade",
+    "employment_act": "",
+    "branch": "Finance",
+    "selection_documentation": "None"
+}

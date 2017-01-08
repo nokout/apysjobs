@@ -12,19 +12,26 @@ def build_object(body, notice={}):
     notice['section'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrSection').css('td:nth-child(2)::text').extract_first()).strip()
     notice['job_type'] = [x.strip() for x in Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrPositionType').css('td:nth-child(2)::text').extract_first().split(',')]
     notice['salary_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrSalary').css('td:nth-child(2)::text').extract_first()
-    notice['salary_min'] = notice['salary_text'].split('-')[0].replace('$','').replace(',','').strip()
-    notice['salary_max'] = notice['salary_text'].split('-')[-1].replace('$','').replace(',','').strip()
+    if notice['salary_text']:
+        notice['salary_min'] = notice['salary_text'].split('-')[0].replace('$','').replace(',','').strip()
+        notice['salary_max'] = notice['salary_text'].split('-')[-1].replace('$','').replace(',','').strip()
     notice['locations_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrLocation').css('td:nth-child(2)::text').extract_first()
-    notice['locations'] = notice['locations_text'].split(',')
-    notice['locations'] = []
-
+    notice["locations"] = []
     for location in notice['locations_text'].split(';'):
-        notice['locations'].append({'state': location.split('-')[1].strip(), 'city': location.split('-')[0].strip()})
+          if location.find(" - ") >= 0:
+              notice['locations'].append({'state': location.split('-')[1].strip(), 'city': location.split('-')[0].strip()})
+          else:
+              notice['locations'].append({'other': location})
 
-    notice['classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrClassification').css('td:nth-child(2)::text').extract_first().strip()
-    notice['classifications'] = [x.strip() for x in notice['classification_text'].split(',')]
 
-    notice['employment_act'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrAgencyAct::text').extract_first().strip()
+    notice['classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrClassification').css('td:nth-child(2)::text').extract_first()
+    notice['broadband_classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrBroadband').css('td:nth-child(2)::text').extract_first()
+    if notice['classification_text']:
+        notice['classifications'] = [x.strip() for x in notice['classification_text'].split(',')]
+    elif notice['broadband_classification_text']:
+        notice['classifications'] = [x.strip() for x in notice['broadband_classification_text'].split(',')]
+
+    notice['employment_act'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrAgencyAct::text').extract_first()).strip()
     notice['position_id'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrPositionNo').css('td:nth-child(2)::text').extract_first()).strip()
     notice['agency_website'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrAgencyUrlTop').css('td:nth-child(2) a::attr(href)').extract_first()).strip()
     if len(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrAmendments span::text').extract()) > 0:
@@ -34,8 +41,8 @@ def build_object(body, notice={}):
     notice['position_contact'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrContactDetails').css('td:nth-child(2)::text').extract_first()).strip()
     notice['position_contact_address'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrApplyText').css('td:nth-child(2)::text').extract_first()).strip()
     notice['agency_website_recruitment'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrAgencyRecruitmentUrl').css('td:nth-child(2)::text').extract_first().strip()
-    notice['agency_website_apply_function_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkApply::attr(onclick)').extract_first().strip()
-    notice['agency_website_information'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkAgencyRecruitment::attr(href)').extract_first().strip()
+    notice['agency_website_apply_function_text'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkApply::attr(onclick)').extract_first()).strip()
+    notice['agency_website_information'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_lnkAgencyRecruitment::attr(href)').extract_first()).strip()
     notice['notes_html'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_pnlNotes > div.notes').extract()
 
     # In order to extract the position description it needs to be seperated from the other content

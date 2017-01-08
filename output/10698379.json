@@ -1,0 +1,53 @@
+{
+    "id": "10698379",
+    "notice_type_text": "Vacancy N.N. 10698379",
+    "job_type": [
+        "Non-ongoing (Temporary)",
+        "Full-time"
+    ],
+    "locations_text": "Kingston - TAS",
+    "section": "Expedition Antarctic Stations",
+    "salary_text": "$56,215 - $189,408",
+    "closing_date": "Friday, 27 January 2017",
+    "classification_text": "APS Level 2, APS Level 3, APS Level 4, APS Level 5, APS Level 6, Antarctic Medical Practitioner Level 1, Executive Level 1, Antarctic Medical Practitioner Level 2, Executive Level 2",
+    "agency_website_apply_function_text": "javascript:return isValidDisclaimer();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"ctl00$c$ucNoticeDetails$ucNoticeView$lnkApply\", \"\", false, \"\", \"http://www.antarctica.gov.au/jobs\", false, false))",
+    "salary_min": "56215",
+    "portfolio": "Environment",
+    "position_description_html": "<html>\n <body>\n  <div id=\"viewContent\">\n   <br/>\n   <h2>\n    Job Description\n   </h2>\n   <h3>\n    Duties\n   </h3>\n   <br/>\n   The Australian Antarctic Division (AAD) is part of the Commonwealth Department of the Environment and Energy.  As primary agency for Australia\u2019s Antarctic Program, the AAD is responsible for achieving the Australian Government\u2019s Antarctic goals.  The AAD is currently recruiting for people with a wide range of skills and abilities to undertake and support science programs and maintain three continental stations: Casey (including the Wilkins Blue ice Runway site), Davis, Mawson and the subantarctic station on Macquarie Island. AAD  require people who can live and work together harmoniously in often harsh and inhospitable conditions.\n   <br/>\n   <br/>\n   Positions required include Antarctic Medical Practitioners, Chefs, Field Training Officers, Station Communications Technical Officers, Communications Operators, Communications Riggers, Information Technology Officers, Building Services Supervisors, Engineering Services Supervisors, Carpenters, Electricians, Riggers, Boilermaker Welders, Fitters and Turners, Refrigeration Mechanics, Instrument Electricians, Plumbers, Station Mechanical Supervisors, Mechanics, Station and Aerodrome Plant Operators, Electronics Engineer, Aircraft Ground Support Officers, Wilkins Aerodrome Manager and Deputy Manager, Station Supply Officers, Mechanical Services Balancing Technician and Watercraft Operators.\n   <br/>\n   <br/>\n   <h3>\n    Notes\n   </h3>\n   <br/>\n   Classifications: Expeditioner Band 1 (APS Level 2-4), Expeditioner Band 2 (APS Level 5-6), Expeditioner Band 3 (Executive Level 1), Expeditioner Band 4 (Executive Level 2), Expeditioner Antarctic Medical Practitioner Level 1/2\n   <br/>\n   <br/>\n   Non-ongoing opportunity will be offered  for a specified task\n   <br/>\n   <br/>\n   Periods of employment range from 4 to 20 months\n   \n  </div>\n </body>\n</html>",
+    "position_contact_address": "None",
+    "publish_date": " 15 Dec 2016 \r\n                ",
+    "notes_html": [
+        "<div id=\"ctl00_c_ucNoticeDetails_divStaticEmploymentOpportunityText\" class=\"notes\" style=\"padding-left:8em;\">\r\n\t\t\t\t    Applicants to vacancies notified in all formats of the electronic Public Service Gazette should be aware that;<br>\r\n                     \r\n                         .\u00a0 the names of successful applicants may also be notified in all formats of the electronic Public Service Gazette<br>\r\n                         .\u00a0 applicants found suitable may be offered similar employment opportunities by other Australian Public Service agencies\r\n                    \r\n\t\t\t\t    <br>\u00a0\r\n\t\t\t    </div>",
+        "<div class=\"notes\" style=\"text-align:center;\">\r\n\t\t\t\t\t    This notice is part of the electronic Public Service Gazette\r\n\t\t\t\t\t    PS50-Thu - 15 Dec 2016\r\n\t\t\t\t\t    Published by Australian Public Service Commission.\r\n\t\t\t    </div>"
+    ],
+    "agency_website_recruitment": "http://www.antarctica.gov.au/",
+    "broadband_classification_text": null,
+    "classifications": [
+        "APS Level 2",
+        "APS Level 3",
+        "APS Level 4",
+        "APS Level 5",
+        "APS Level 6",
+        "Antarctic Medical Practitioner Level 1",
+        "Executive Level 1",
+        "Antarctic Medical Practitioner Level 2",
+        "Executive Level 2"
+    ],
+    "agency_website_information": "http://www.antarctica.gov.au/",
+    "job_title": "Various Expeditioner Positions",
+    "locations": [
+        {
+            "state": "TAS",
+            "city": "Kingston"
+        }
+    ],
+    "agency_website": "http://www.antarctica.gov.au/",
+    "salary_max": "189408",
+    "url": "https://www.apsjobs.gov.au/SearchedNoticesView.aspx?Notices=10698379%3A1&mn=JobSearch",
+    "position_id": "Several Positions",
+    "position_contact": "Recruitment,  1800 030 755",
+    "agency": "Australian Antarctic Division",
+    "employment_act": "",
+    "branch": "Support and Operations",
+    "selection_documentation": "http://www.antarctica.gov.au/jobs"
+}

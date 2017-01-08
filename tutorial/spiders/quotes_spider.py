@@ -4,11 +4,14 @@ import json
 from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
 from build_object import build_object
+from elasticsearch import Elasticsearch
+
+es = Elasticsearch()
 
 
 class QuotesSpider(scrapy.Spider):
     name = "apsjobs"
-    notices = {}
+    search_notices = {}
     custom_settings = {
         'COOKIES_ENABLED': True
     }
@@ -73,33 +76,25 @@ class QuotesSpider(scrapy.Spider):
         if response.status != 200:
             self.error('Non 200 result')
 
-        self.log("Status: {}".format(response.status))
-        self.log("Headers: {}".format(response.headers))
-        self.log("Flags: {}".format(response.flags))
-        #
-        # page = response.url.split("/")[-2]
-        # filename = 'apsjobs_search_results.html'.format(page)
-        # with open(filename, 'wb') as f:
-
-        #     f.write(response.body)
-        # self.log('Saved file {}'.format(filename))
-        with open('search_result.html', 'wb') as f:
+        with open('output/search_result.html', 'wb') as f:
             f.write(response.body)
 
         rows = Selector(response=response).css(
             '#ctl00_ContentPlaceHolderSite_lvSearchResults_gvListView').css('.item, .altItem').extract()
         self.log('Notices Found: {}'.format(len(rows)))
+
         for i, row in enumerate(rows):
+            url = id = date = None
             url = response.urljoin(Selector(text=row).css(
                 'td:nth-child(2)').css('a::attr(href)').extract()[-1])
             id = re.search('Notices=([0-9]*)', Selector(text=row).css(
                 'td:nth-child(2)').css('a::attr(href)').extract_first()).group(1)
             date = Selector(text=row).css('td:nth-child(3)::text').extract_first().split(':')[-1]
-            self.notices['id'] = {'notice_id': id, 'notice_url': url, 'notice_publish_date': date}
+            self.search_notices[id] = {'id': id, 'url': url, 'publish_date': date}
 
             yield scrapy.Request(response.urljoin(url), callback=self.parse)
 
-            if i > 3:
+            if i > 30:
                 break
 
     def parse(self, response):
@@ -109,6 +104,10 @@ class QuotesSpider(scrapy.Spider):
             f.write(response.body)
 
         with open('''output/{}.json'''.format(id), 'w') as f:
-            notice_doc = build_object(response.body, self.notices['id'])
-            f.write(json.dumps(notice_doc, indent=4))
+            notice = build_object(response.body, self.search_notices[id])
+            f.write(json.dumps(notice, indent=4))
             # TODO write to elastic search
+        es.index(index='notices',
+                  doc_type='notice',
+                  body=notice,
+                  id = notice['id'])
