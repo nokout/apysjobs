@@ -4,12 +4,12 @@ import json
 from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
 from build_object import build_object
-# from elasticsearch import Elasticsearch
 
-# es = Elasticsearch()
+#es from elasticsearch import Elasticsearch
+#es es = Elasticsearch()
 
 
-class QuotesSpider(scrapy.Spider):
+class ApsSpider(scrapy.Spider):
     name = "apsjobs"
     search_notices = {}
     custom_settings = {
@@ -109,7 +109,7 @@ class QuotesSpider(scrapy.Spider):
             notice = build_object(response.body, self.search_notices[id])
             f.write(json.dumps(notice, indent=4))
             # TODO write to elastic search
-        # es.index(index='notices',
-        #           doc_type='notice',
-        #           body=notice,
-        #           id = notice['id'])
+        # es es.index(index='notices',
+        # es           doc_type='notice',
+        # es           body=notice,
+        # es           id = notice['id'])
