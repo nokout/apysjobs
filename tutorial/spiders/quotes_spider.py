@@ -5,8 +5,8 @@ from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
 from build_object import build_object
 
-#es from elasticsearch import Elasticsearch
-#es es = Elasticsearch()
+from elasticsearch import Elasticsearch
+es = Elasticsearch()
 
 
 class ApsSpider(scrapy.Spider):
@@ -14,7 +14,8 @@ class ApsSpider(scrapy.Spider):
     search_notices = {}
     custom_settings = {
         'COOKIES_ENABLED': True
-    }
+        }
+
 
     def start_requests(self):
 
@@ -96,8 +97,8 @@ class ApsSpider(scrapy.Spider):
 
             yield scrapy.Request(response.urljoin(url), callback=self.parse)
 
-            if i > 3:
-                break
+            # if i > 20:
+            #     break
 
     def parse(self, response):
         id = re.search('Notices=([0-9]*)', response.url).group(1)
@@ -109,7 +110,7 @@ class ApsSpider(scrapy.Spider):
             notice = build_object(response.body, self.search_notices[id])
             f.write(json.dumps(notice, indent=4))
             # TODO write to elastic search
-        # es es.index(index='notices',
-        # es           doc_type='notice',
-        # es           body=notice,
-        # es           id = notice['id'])
+        es.index(index='notices',
+               doc_type='notice',
+               body=notice,
+               id = notice['id'])
