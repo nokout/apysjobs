@@ -1,12 +1,12 @@
-import scrapy
+import scrapy, arrow
 import re
 import json
 from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
 from build_object import build_object
-from elasticsearch import Elasticsearch
+# from elasticsearch import Elasticsearch
 
-es = Elasticsearch()
+# es = Elasticsearch()
 
 
 class QuotesSpider(scrapy.Spider):
@@ -90,11 +90,13 @@ class QuotesSpider(scrapy.Spider):
             id = re.search('Notices=([0-9]*)', Selector(text=row).css(
                 'td:nth-child(2)').css('a::attr(href)').extract_first()).group(1)
             date = Selector(text=row).css('td:nth-child(3)::text').extract_first().split(':')[-1]
+            date = arrow.get(str(date).strip(), 'D MMM YYYY').format('YYYY/MM/DD')
             self.search_notices[id] = {'id': id, 'url': url, 'publish_date': date}
+
 
             yield scrapy.Request(response.urljoin(url), callback=self.parse)
 
-            if i > 30:
+            if i > 3:
                 break
 
     def parse(self, response):
@@ -107,7 +109,7 @@ class QuotesSpider(scrapy.Spider):
             notice = build_object(response.body, self.search_notices[id])
             f.write(json.dumps(notice, indent=4))
             # TODO write to elastic search
-        es.index(index='notices',
-                  doc_type='notice',
-                  body=notice,
-                  id = notice['id'])
+        # es.index(index='notices',
+        #           doc_type='notice',
+        #           body=notice,
+        #           id = notice['id'])

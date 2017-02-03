@@ -1,4 +1,4 @@
-import re
+import re, arrow
 from scrapy.selector import Selector
 from bs4 import BeautifulSoup
 
@@ -6,7 +6,11 @@ def build_object(body, notice={}):
     notice['notice_type_text'] = Selector(text=body).css('.noticeType::text').extract_first().strip()
     notice['portfolio'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_tdPortfolio::text').extract_first().strip()
     notice['agency'] = Selector(text=body).css('.agency::text').extract_first().strip()
-    notice['closing_date'] = Selector(text=body).css('.closingDate::text').extract_first().split(':')[-1].strip()
+    notice['closing_date_string'] = Selector(text=body).css('.closingDate::text').extract_first().split(':')[-1].strip()
+    notice['closing_date_formatted'] =  arrow.get(notice['closing_date_string'], 'dddd, D MMMM YYYY').format('YYYY/MM/DD')
+    # print('as arrow date: {}'.format(closing_date_arrow))
+    # print('as formatted date: {}'.format(closing_date_arrow.format('YYYY/MM/DD')))
+
     notice['job_title'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrPositionTitle').css('td:nth-child(2)::text').extract_first().strip()
     notice['branch'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrBranch').css('td:nth-child(2)::text').extract_first()).strip()
     notice['section'] = str(Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_tbrSection').css('td:nth-child(2)::text').extract_first()).strip()
@@ -22,7 +26,6 @@ def build_object(body, notice={}):
               notice['locations'].append({'state': location.split('-')[1].strip(), 'city': location.split('-')[0].strip()})
           else:
               notice['locations'].append({'other': location})
-
 
     notice['classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrClassification').css('td:nth-child(2)::text').extract_first()
     notice['broadband_classification_text'] = Selector(text=body).css('#ctl00_c_ucNoticeDetails_ucNoticeView_ucToClassificationsLabel_tbrBroadband').css('td:nth-child(2)::text').extract_first()
@@ -52,6 +55,21 @@ def build_object(body, notice={}):
     # remove the inner table conent which contains all the information we have already extracted
     [x.extract() for x in soup.find_all(class_ = 'innerTable')]
     [x.extract() for x in soup.find_all(id = 'ctl00_c_ucNoticeDetails_ucNoticeView_tbrAmendments')]
-    notice['position_description_html'] = re.sub('\<h2\>\s*To Apply\s*\<\/h2\>', '', str(soup.prettify()))
+
+    notice['position_description_html'] = re.sub('\<h2\>\s*To Apply\s*\<\/h2\>', '', unicode(soup.prettify()))
 
     return notice
+
+
+if __name__ == "__main__":
+    import json
+
+    with open('test_assets/1.html') as f:
+        result = build_object(f.read())
+        print(json.dumps(result, indent=3))
+        # closing_date_string = result['closing_date_string']
+        # print('closing_date_string: {}'.format(closing_date_string))
+        # # Date Example: Thursday, 26 January 2017
+        # closing_date_arrow =  arrow.get(closing_date_string, 'dddd, D MMMM YYYY')
+        # print('as arrow date: {}'.format(closing_date_arrow))
+        # print('as formatted date: {}'.format(closing_date_arrow.format('YYYY/MM/DD')))
